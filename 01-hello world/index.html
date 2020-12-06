@@ -10,7 +10,7 @@
     <p>React is loaded as a script tag.</p>
 
     <!-- We will put our React component inside this div. -->
-    <div id="like_button_container"></div>
+    <div id="root"></div>
 
     <!-- Load React. -->
     <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
@@ -18,13 +18,6 @@
     <script src="../00-assert/react-dom.development.js" crossorigin></script>
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 
-    <script type="text/babel">
-      const elemnt = (
-        <div>
-          hello world <h2>hello</h2>{' '}
-        </div>
-      );
-      ReactDOM.render(elemnt, document.getElementById('like_button_container'));
-    </script>
+    <script type="text/babel" src="./like_button.js"></script>
   </body>
 </html>
