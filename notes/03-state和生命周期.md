@@ -58,3 +58,5 @@ ReactDOM.render(<Clock />, document.getElementById("root"));
 - 数据是向下流动的
   > 不管是父组件还是子组件都无法知道某个组件是有状态的还是无状态的。也就是说组件中的 state 只有在该组件中才可以访问，其他组件都无法访问
   > 组件可以将自己的 state 作为 props 向子组件传递，子组件通过 props 接受父组件传递过来的参数。但是子组件不能知道该参数是来是父组件的 state、props 还是手动输入的。
+
+**当组件中的 `state` 数据或者 `props` 数据发生变化是，则会重新执行 `render` 函数,当父组件中的 render 函数被执行是，子组件的 render 函数也会被执行**
