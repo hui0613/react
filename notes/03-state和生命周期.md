@@ -60,3 +60,42 @@ ReactDOM.render(<Clock />, document.getElementById("root"));
   > 组件可以将自己的 state 作为 props 向子组件传递，子组件通过 props 接受父组件传递过来的参数。但是子组件不能知道该参数是来是父组件的 state、props 还是手动输入的。
 
 **当组件中的 `state` 数据或者 `props` 数据发生变化是，则会重新执行 `render` 函数,当父组件中的 render 函数被执行是，子组件的 render 函数也会被执行**
+
+## 生命周期
+
+### componentWillMount()
+
+> 组件即将被挂在到页面上是执行 `componentWillMount()`,此时页面上还没有 DOM 结构,不可以操作 DOM
+
+### render()
+
+> 当组件中的 `state` 或者 `props` 数据发生改变,以及父组件的 render 函数重新执行是执行 render 函数.
+
+当父组件的 `render` 函数被执行,但是数据并没有影响到子组件是,这时候重新渲染子组件就会造成性能的损耗
+
+### componentDiDMount()
+
+> 组件已经该在到页面上,生成了正式的 `DOM` 结构,可以在该函数中操作 `DOM` 元素
+
+### shouldComponentUpdate()
+
+> 组件被更新之前会执行,该函数需要一个返回值,若返回值为 `false` ,则组件不会被更新,否则更新组件
+
+在函数中判断,当父组件的 `render` 函数被重新执行时,传入的 `props` 是否发生了改变,若没有发生改变,则返回 `false`,阻止子组件的重新渲染,提升性能
+
+### componentWillUpdate()
+
+> 组件被更新之前, `shouldComponentUpdate()` 之后执行,若 `shouldComponentUpdate()` 返回值为 `false` ,则该函数不会被执行,该函数执行之后,执行 `render` 函数更新组件
+
+### componentDidUpdate()
+
+> 组件更新完成之后执行
+
+### componentWillReceiveProps()
+
+> 当一个组件从父组件接受参数,父组件中的 render 函数重新执行,则该函数则会被执行.
+> **若当前组件之前不存在与父组件中,则父组件的 render 函数执行是不会触发该函数的执行**
+
+### componentWillUnmount()
+
+> 当组件即将从页面中移除是会执行该函数
