@@ -161,3 +161,79 @@ function todoApp(state = initialState, action) {
 ```
 
 优化之后的代码中，对于 `state` 中 `todos` 中使用单独 `todos` 方法来进行管理， 在 toApp 中，只需要将需要更新的数据传递给 `todos` 函数.
+
+### 使用 comBinReducers() 工具函数
+
+对上面的 todoApp 函数进行优化
+
+```js
+import { comBinReducers } from "redux";
+const todoApp = comBinReducers({
+  todos,
+});
+```
+
+## store
+
+store 具有以下职责：
+
+- 维持应用的 state
+- 提供 getState() 方法获取 state
+- 通过 subscribe(listener)注册监听器
+- 通过 subscribe(listener)返回的函数注销监听器
+
+### 创建 store
+
+```js
+import { createStore } from "redux";
+import reducer from "./reducer";
+
+const store = createStore(reducer);
+```
+
+## 数据流
+
+在 redux 中，数据流是严格单向的。
+
+### redux 应用中数据的生命周期
+
+- 1.调用 `store.dispatch(action)`
+
+action 就是一个描述发生了什么的对象
+
+```js
+const action = {
+  type: "dosomething",
+  value: value,
+};
+```
+
+- 2. `Redux store` 调用传入的 `reducer` 参数
+
+`store` 会将两个参数传递给 `reducer`,当前的 `state 树`和 `action`.
+
+**注意 reducer 是纯函数。他仅仅用于计算下一个 state，多次传入相同的值必须有相同的输出。不应该作有副作用的操作（API 调用或者路由跳转）**
+
+根 reducer 应当将多个 reducer 输出合并成一个单一的 state 树
+
+使用 combinReducers()
+
+```js
+function todos(state = [], action) {
+  return newState;
+}
+function visiableTodoFilter(state = "show_all", action) {
+  return newState;
+}
+
+function todoApp = combinreducers({
+  todos,
+  visiableTodoFilter
+})
+```
+
+当触发 action 后，combinReducer 返回的 todoApp 会负责调用两个 reducer，然后把两个结果集合并成一个 state 树。
+
+### redux sotre 保存了根 reducer 返回的完整的 state 树
+
+这个完整的 state 树就是下一个 state。所有订阅 store.subscribe(listener) 的监听器都会调用，监听器里可以调用 store.getState() 来获取当前的 state
