@@ -7,10 +7,20 @@
 在 JSX 中 {} 中可以嵌入任何有效的 JavaScript 表达式
 
 ```jsx
-const name = 'zh';
+const name = "zh";
 const element = <h1>Hello {name}</h1>;
 
-ReactDOM.render(element, doucment.getElementById('root'));
+ReactDOM.render(element, doucment.getElementById("root"));
+```
+
+### JSX 中嵌入原生 HTML
+
+```jsx
+const rawHTML = {
+  __html: `<h1>title</h1>`, // 必须时这种格式
+};
+
+const render = <div> dangerouslySetInnerHTML={rawHTML}</div>;
 ```
 
 ### JSX 也是一个表达式
@@ -22,7 +32,7 @@ ReactDOM.render(element, doucment.getElementById('root'));
 使用引号来将属性指定为字符串变量
 
 ```jsx
-const element = <div id='root'></div>;
+const element = <div id="root"></div>;
 ```
 
 也可以使用 {} 来插入一个 JavaScript 表达式
@@ -40,13 +50,13 @@ const element = <div id={id}></div>;
 下面两种方式代码是等效的
 
 ```jsx
-const element = <h1 className='title'>hello world</h1>;
+const element = <h1 className="title">hello world</h1>;
 ```
 
 ```jsx
 const element = React.createElement(
-  'h1',
-  { className: 'title' },
-  'hello world'
+  "h1",
+  { className: "title" },
+  "hello world"
 );
 ```

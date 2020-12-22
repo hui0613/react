@@ -27,8 +27,8 @@ function Welcome(props) {
   return <h1>hello {props.name}</h1>;
 }
 
-const element = <Welcome name='zh' />;
-ReactDOM.render(element, doucment.getElementById('root'));
+const element = <Welcome name="zh" />;
+ReactDOM.render(element, doucment.getElementById("root"));
 ```
 
 #### 渲染组件的过程
@@ -48,13 +48,13 @@ function Welcome(props) {
 function App() {
   return (
     <div>
-      <Welcome name='zh' />
-      <Welcomw name='hui' />
+      <Welcome name="zh" />
+      <Welcomw name="hui" />
     </div>
   );
 }
 
-ReactDOM.render(<App />, doucment.getElementById('root'));
+ReactDOM.render(<App />, doucment.getElementById("root"));
 ```
 
 ### props 的只读性

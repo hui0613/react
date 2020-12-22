@@ -45,18 +45,89 @@ ReactDOM.render(<Clock />, document.getElementById("root"));
 
 ### state 的使用
 
-- 不要直接的修改 `state` 中的数据，应该使用 `setState()` 方法
-- 构造汉书是唯一可以制定 `this.state` 的地方
-- State 的更新可能是异步的
-  > 为了处于新能考虑， `React` 可能会将多个 `setSate()` 调用合并成一个调用
-  > 要解决这个问题，可以让 `setState()` 接受一个函数而不是一个对象，该函数的第一个参数为 `state`，第二个参数则是更新是需要用到的 `props`
-  ```jsx
-  this.setState((state, props) => {
-    counter: state.sounter + props.counter;
+- **不要直接的修改** `state` 中的数据，应该使用 `setState()` 方法
+
+  - 修改 state 中引用类型数据
+
+    - 数组
+      使用数组的各种方法(不能影响原来的数组（push, splice, pop 等方法不可用，违反了 state 不可变）)得到一个新的数组，使用 setState 对 state 中的数组进行修改
+
+    ```jsx
+    this.setState({
+      list: this.state.list.concat(100),
+      list1: [...this.state.list1, 100],
+    });
+    ```
+
+    - 对象
+      对原有的对象进行拷贝得到一个新的对象，对新的对象进行数据修改之后在使用 setState 修改 state 中的对象数据
+
+      ```jsx
+      this.setState({}, state, {a：1000});
+      ```
+
+- 构造函数是**唯一**可以定义 `this.state` 的地方
+  - 函数组件默认没有 `state`
+- **State 的更新可能是异步的**
+
+  - 直接使用 setState 是异步的
+    证明 setState 是异步的
+
+  ```js
+  this.state = {
+    count: 0,
+  };
+  this.setState({
+    count: this.state.count + 1,
+  });
+  console.log(this.state.count); //0
+  ```
+
+  - 在 setTimeOut 中使用 setState 是同步的
+
+  ```js
+  this.state = {
+    count: 0,
+  };
+
+  setTimeOut(() => {
+    this.setState({
+      count: this.state.count + 1,
+    });
+    console.log(this.state.count); // 1
+  }, 0);
+  ```
+
+  - 自定义的 DOM 事件中使用 setState 是同步的
+
+  ```js
+  this.state = {
+    count: 0,
+  };
+  document.addEventListener("click", () => {
+    this.setState({
+      count: this.state.count + 1,
+    });
+    console.log(this.state.count); // 1
   });
   ```
+
+  > 为了处于新能考虑， `React` **可能会将多个 `setSate()` 调用合并成一个调用**
+
+  > 要解决 setState 被合并的问题，可以让 `setState()` 接受一个函数而不是一个对象，该函数的第一个参数为 `state`，第二个参数则是更新是需要用到的 `props`
+
+  ```jsx
+  this.setState((state, props) => {
+    return {
+      counter: state.sounter + props.counter;
+    }
+  });
+  ```
+
 - 数据是向下流动的
+
   > 不管是父组件还是子组件都无法知道某个组件是有状态的还是无状态的。也就是说组件中的 state 只有在该组件中才可以访问，其他组件都无法访问
+
   > 组件可以将自己的 state 作为 props 向子组件传递，子组件通过 props 接受父组件传递过来的参数。但是子组件不能知道该参数是来是父组件的 state、props 还是手动输入的。
 
 **当组件中的 `state` 数据或者 `props` 数据发生变化是，则会重新执行 `render` 函数,当父组件中的 render 函数被执行是，子组件的 render 函数也会被执行**
